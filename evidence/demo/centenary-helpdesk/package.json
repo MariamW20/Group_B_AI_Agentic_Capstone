@@ -1,0 +1,16 @@
+{
+  "name": "centenary-helpdesk",
+  "version": "1.0.0",
+  "description": "Week 2 baseline: foundation model integration for the Centenary helpdesk agent",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@google/genai": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
