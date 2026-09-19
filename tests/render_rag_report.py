@@ -1,4 +1,4 @@
-﻿"""Render the saved evaluation evidence without inventing model responses."""
+"""Render the saved evaluation evidence without inventing model responses."""
 import json
 from collections import Counter
 from pathlib import Path
@@ -9,7 +9,7 @@ def main():
     results = report['results']
     lines = ['# Week 3: 15-case RAG evaluation results', '',
         'Project: Centenary Bank Customer Support AI', '',
-        f"Run time (UTC): {report['generated_at_utc']}  ",
+        f"Run time (UTC): {report['generated_at_utc']}",
         f"Evaluated team baseline: `{report['base_commit']}`", '',
         '## Scope and method', '',
         'Fifteen fixed questions: five answerable, five partially answerable, and five deliberately unanswerable. '
@@ -68,7 +68,7 @@ def main():
         '- [Raw results, exact contexts, prompts, scores and SHA-256 input fingerprints](../../evidence/traces/rag-evaluation.json)',
         '- [Controlled source register](../requirements/Week-3-Corpus-Source-Register.md)',
         '- [Evaluation runner](../../tests/run_rag_evaluation.py)', '',
-        'ClickUp traceability: existing team commits include a task ID. Attach this deliverable commit to the correct evaluation task; do not reuse a teammate\'s ingestion or corpus task ID. The evaluation task ID was not supplied at report creation.', '']
+        'ClickUp task: `123tp5x69ya`. The evaluation commit references this task ID, following the existing team commit convention.', '']
     (ROOT / 'docs/evaluation/Week-3-15-Case-RAG-Evaluation.md').write_text('\n'.join(lines), encoding='utf-8')
 
 if __name__ == '__main__':
