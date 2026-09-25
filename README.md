@@ -11,5 +11,6 @@ Fixed cases: `tests/rag_cases.json`. Raw evidence: `evidence/traces/rag-evaluati
 
 - [Tool failure and authorization test evidence](docs/evaluation/Week-4-Tool-QA.md)
 - [Updated Week 4 architecture](docs/architecture/updated-agent-architecture.md)
+- [Architecture image](docs/architecture/agentarchitecture-week4.svg)
 - [Week 4 progress report](docs/weekly-reports/Week4_Progress_Report_Final.docx)
 - Run QA: `python3 -m unittest discover -s tests/week4 -v`

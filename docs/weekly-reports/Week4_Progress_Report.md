@@ -22,7 +22,7 @@ Four tools are now defined in the Week 4 catalogue:
 - `create_support_ticket` creates a low-risk simulated support ticket using the customer ID from the session rather than from model-supplied arguments.
 - `escalate_support_case` submits a case for simulated human follow-up only after a valid, request-bound approval token and explicit human approval.
 
-The catalogue records each tool's purpose, input and output schema, required authorization level and failure behaviour. The architecture has been updated in `docs/architecture/updated-agent-architecture.md` to show the new registry, validation, authorization, approval and structured-trace path between the agent and tool backends.
+The catalogue records each tool's purpose, input and output schema, required authorization level and failure behaviour. The architecture has been updated in `docs/architecture/updated-agent-architecture.md` and `docs/architecture/agentarchitecture-week4.svg` to show the new registry, validation, authorization, approval and structured-trace path between the agent and tool backends.
 
 ## 3. Failure, authorization and approval controls
 

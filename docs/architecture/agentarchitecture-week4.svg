@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+<title id="title">Centenary Bank Customer Support AI Agent - Week 4 architecture</title>
+<desc id="desc">Layered architecture showing chat, Gemini, RAG, tool orchestration, authorization, approval, tools and audit traces.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#102844"/></linearGradient>
+<linearGradient id="panel" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#173b64"/><stop offset="1" stop-color="#0f2948"/></linearGradient>
+<linearGradient id="safe" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#134b52"/><stop offset="1" stop-color="#10373f"/></linearGradient>
+<linearGradient id="tool" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5a431d"/><stop offset="1" stop-color="#3b2e18"/></linearGradient>
+<filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#000" flood-opacity=".3"/></filter>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#85b9e8"/></marker>
+<marker id="goldArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#f0c36b"/></marker>
+<style>
+.title{font:700 30px Arial;fill:#f7fbff}.subtitle{font:400 15px Arial;fill:#a8c4df}.section{font:700 14px Arial;letter-spacing:2px;fill:#8db8dc}.box-title{font:700 17px Arial;fill:#f7fbff}.body{font:400 13px Arial;fill:#c9dced}.small{font:400 11px Arial;fill:#9fbbd4}.chip{font:700 11px Arial;fill:#e9f3fd;letter-spacing:1px}.gold{font:700 11px Arial;fill:#f0c36b}.arrow-label{font:700 11px Arial;fill:#b8d5ee}.mono{font:400 11px 'Courier New';fill:#bfe0f3}
+</style></defs>
+<rect width="1600" height="1000" fill="url(#bg)"/>
+<rect x="45" y="35" width="1510" height="110" rx="22" fill="url(#panel)" stroke="#315d87"/>
+<text x="80" y="82" class="title">Centenary Bank Customer Support AI Agent</text>
+<text x="80" y="112" class="subtitle">Updated Week 4 architecture | grounded answers + bounded tools + human approval</text>
+<rect x="1265" y="68" width="235" height="42" rx="21" fill="#0b1c31" stroke="#4d85b7"/><text x="1382" y="94" text-anchor="middle" class="chip">SYNTHETIC DEMO DATA ONLY</text>
+
+<text x="70" y="186" class="section">1  EXPERIENCE LAYER</text>
+<rect x="55" y="205" width="1490" height="112" rx="18" fill="#0c2038" stroke="#315d87"/>
+<g filter="url(#shadow)"><rect x="85" y="232" width="255" height="58" rx="12" fill="#183b60" stroke="#4d85b7"/><rect x="480" y="232" width="300" height="58" rx="12" fill="#183b60" stroke="#4d85b7"/><rect x="920" y="232" width="300" height="58" rx="12" fill="#183b60" stroke="#4d85b7"/></g>
+<text x="212" y="257" text-anchor="middle" class="box-title">Customer / support agent</text><text x="212" y="278" text-anchor="middle" class="body">question, request or case</text>
+<text x="630" y="257" text-anchor="middle" class="box-title">Website chat widget</text><text x="630" y="278" text-anchor="middle" class="body">session + message boundary</text>
+<text x="1070" y="257" text-anchor="middle" class="box-title">Response composer</text><text x="1070" y="278" text-anchor="middle" class="body">grounded citations + tool result</text>
+<path d="M340 261H470M780 261H910M1220 261H1480" stroke="#85b9e8" stroke-width="2" fill="none" marker-end="url(#arrow)"/><text x="1350" y="248" text-anchor="middle" class="arrow-label">safe response</text>
+
+<text x="70" y="360" class="section">2  ORCHESTRATION AND GUARDRAILS</text>
+<rect x="55" y="380" width="950" height="352" rx="18" fill="#0c2038" stroke="#315d87"/>
+<g filter="url(#shadow)"><rect x="85" y="417" width="260" height="82" rx="12" fill="#224d78" stroke="#5d94c5"/><rect x="385" y="417" width="270" height="82" rx="12" fill="url(#safe)" stroke="#55a6a0"/><rect x="695" y="417" width="270" height="82" rx="12" fill="url(#safe)" stroke="#55a6a0"/></g>
+<text x="215" y="447" text-anchor="middle" class="box-title">Gemini foundation model</text><text x="215" y="469" text-anchor="middle" class="body">intent + response reasoning</text><text x="215" y="487" text-anchor="middle" class="small">not the authorization authority</text>
+<text x="520" y="447" text-anchor="middle" class="box-title">Agent orchestrator</text><text x="520" y="469" text-anchor="middle" class="body">route, validate, execute, return</text><text x="520" y="487" text-anchor="middle" class="small">structured success / failure</text>
+<text x="830" y="447" text-anchor="middle" class="box-title">Tool registry</text><text x="830" y="469" text-anchor="middle" class="body">allow-list + schemas</text><text x="830" y="487" text-anchor="middle" class="small">unknown tools rejected</text>
+<path d="M345 458H375M655 458H685" stroke="#85b9e8" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g><rect x="85" y="555" width="260" height="106" rx="12" fill="#152f4b" stroke="#4d85b7"/><rect x="385" y="555" width="270" height="106" rx="12" fill="#152f4b" stroke="#4d85b7"/><rect x="695" y="555" width="270" height="106" rx="12" fill="#3b2e18" stroke="#d39c42"/></g>
+<text x="215" y="586" text-anchor="middle" class="box-title">Grounding gate</text><text x="215" y="610" text-anchor="middle" class="body">RAG context + source trace</text><text x="215" y="631" text-anchor="middle" class="small">unsupported answer → abstain</text>
+<text x="520" y="586" text-anchor="middle" class="box-title">Auth + validation</text><text x="520" y="610" text-anchor="middle" class="body">session identity + permissions</text><text x="520" y="631" text-anchor="middle" class="small">trusted fields cannot be overridden</text>
+<text x="830" y="586" text-anchor="middle" class="box-title">Human approval gate</text><text x="830" y="610" text-anchor="middle" class="body">case + reason + urgency bound</text><text x="830" y="631" text-anchor="middle" class="gold">required for escalation</text>
+<path d="M215 499V545M520 499V545" stroke="#85b9e8" stroke-width="2" fill="none" marker-end="url(#arrow)"/><path d="M830 499V545" stroke="#f0c36b" stroke-width="2" fill="none" marker-end="url(#goldArrow)"/>
+
+<text x="1050" y="360" class="section">3  APPROVED TOOLS AND DATA</text>
+<rect x="1030" y="380" width="515" height="352" rx="18" fill="#0c2038" stroke="#315d87"/>
+<g><rect x="1060" y="417" width="220" height="64" rx="12" fill="url(#tool)" stroke="#d39c42"/><rect x="1305" y="417" width="210" height="64" rx="12" fill="url(#tool)" stroke="#d39c42"/><rect x="1060" y="512" width="220" height="64" rx="12" fill="url(#tool)" stroke="#d39c42"/><rect x="1305" y="512" width="210" height="64" rx="12" fill="url(#tool)" stroke="#d39c42"/></g>
+<text x="1170" y="444" text-anchor="middle" class="box-title">get_service_status</text><text x="1170" y="465" text-anchor="middle" class="body">public synthetic status</text>
+<text x="1410" y="444" text-anchor="middle" class="box-title">get_ticket_status</text><text x="1410" y="465" text-anchor="middle" class="body">owned ticket only</text>
+<text x="1170" y="539" text-anchor="middle" class="box-title">create_support_ticket</text><text x="1170" y="560" text-anchor="middle" class="body">low-risk simulated write</text>
+<text x="1410" y="539" text-anchor="middle" class="box-title">escalate_support_case</text><text x="1410" y="560" text-anchor="middle" class="gold">approval token required</text>
+<rect x="1060" y="612" width="455" height="80" rx="12" fill="#12383f" stroke="#55a6a0"/><text x="1287" y="641" text-anchor="middle" class="box-title">Synthetic in-memory fixtures</text><text x="1287" y="663" text-anchor="middle" class="body">service data | tickets | escalation handoff</text><text x="1287" y="681" text-anchor="middle" class="small">no live balances, transactions or account changes</text>
+<path d="M965 458H1040M965 608H1040" stroke="#f0c36b" stroke-width="2" fill="none" marker-end="url(#goldArrow)"/>
+
+<text x="70" y="785" class="section">4  KNOWLEDGE, OBSERVABILITY AND SAFE OUTCOMES</text>
+<rect x="55" y="807" width="1490" height="135" rx="18" fill="#0c2038" stroke="#315d87"/>
+<g><rect x="85" y="837" width="300" height="65" rx="12" fill="#152f4b" stroke="#4d85b7"/><rect x="435" y="837" width="300" height="65" rx="12" fill="#152f4b" stroke="#4d85b7"/><rect x="785" y="837" width="300" height="65" rx="12" fill="#152f4b" stroke="#4d85b7"/><rect x="1135" y="837" width="380" height="65" rx="12" fill="#12383f" stroke="#55a6a0"/></g>
+<text x="235" y="865" text-anchor="middle" class="box-title">Controlled RAG corpus</text><text x="235" y="886" text-anchor="middle" class="body">24 records | provenance | TF-IDF</text>
+<text x="585" y="865" text-anchor="middle" class="box-title">Trace and audit log</text><text x="585" y="886" text-anchor="middle" class="body">sources | tools | errors | outcomes</text>
+<text x="935" y="865" text-anchor="middle" class="box-title">Structured refusal</text><text x="935" y="886" text-anchor="middle" class="body">no evidence / permission → explain</text>
+<text x="1325" y="865" text-anchor="middle" class="box-title">Next: bounded agent loop</text><text x="1325" y="886" text-anchor="middle" class="body">limits | stop conditions | recovery traces</text>
+<path d="M235 807V742M585 807V742M935 807V742M1325 807V742" stroke="#85b9e8" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="1515" y="975" text-anchor="end" class="mono">BSE4104 • Group B • Week 4 • 123tp5x7wt6</text>
+</svg>
