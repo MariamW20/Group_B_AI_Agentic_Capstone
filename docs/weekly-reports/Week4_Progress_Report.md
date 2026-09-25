@@ -4,7 +4,7 @@
 
 **Reporting period:** 21-25 September 2026  
 **Project:** Centenary Bank Customer Support AI Agent  
-**ClickUp task IDs:** `123tp5x7wnu` (implementation), `123tp5x7wmq` (tool catalogue), `123tp5x7wq3` (failure and authorization tests)  
+**ClickUp task IDs:** `123tp5x7wnu` (implementation), `123tp5x7wmq` (tool catalogue), `123tp5x7wq3` (failure and authorization tests), `123tp5x7wt6` (Walusimbi Ashraf - updated architecture and progress report)  
 **Git baseline:** `4d511f0`
 
 ## 1. Objective
@@ -55,5 +55,4 @@ Week 5 should use this tool layer in a bounded multi-step agent loop with explic
 
 ## 7. Team contribution evidence
 
-The shared Git history records Yusuf580 implementing the tool orchestration and demo, Ssenoga Herman submitting the tool catalogue, and Mariam Wambui updating the failure and authorization evidence. This report consolidates those contributions for the group delivery and links them to the ClickUp task IDs above.
-
+The shared Git history records Yusuf580 implementing the tool orchestration and demo, Ssenoga Herman submitting the tool catalogue, Mariam Wambui updating the failure and authorization evidence, and Walusimbi Ashraf preparing the updated architecture and progress report. This report consolidates all four contributions and links them to the ClickUp task IDs above.
