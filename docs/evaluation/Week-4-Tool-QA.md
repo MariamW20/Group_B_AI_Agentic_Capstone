@@ -1,7 +1,7 @@
-# Week 4 Tool Failure and Authorization QA
+# Week 4 Tool Failure and Authorization Tests
 
 **Course week:** 21–25 September 2026  
-**QA evidence date:** 24 September 2026  
+**Test evidence date:** 24 September 2026  
 **System under test:** `evidence/demo/centenary-RAG/tools.py`, `orchestrator.py`, and `demo.py`
 
 ## Scope and execution
