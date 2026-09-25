@@ -1,125 +1,75 @@
+"""Run the four catalogue-defined Week 4 tools with simulated data.
+
+From this directory: python3 demo.py
 """
-Working demonstration of both tools through the orchestration layer.
-
-Covers:
-  - Tool 1 (search_knowledge_base) success path
-  - Tool 2 (create_support_ticket) blocked pending human approval, then
-    succeeding once approved -- the higher-impact gate in action
-  - Missing required parameter
-  - Unauthorized caller
-  - Downstream service unavailable (simulated for both tools)
-  - Unexpected/malformed tool response (simulated for tool 2)
-
-Run: python3 demo.py
-"""
-
-from chunk import Chunk
-from pipeline import RagPipeline
-from tools import make_search_knowledge_base_tool, make_create_support_ticket_tool
+from tools import (
+    default_service_data, make_get_service_status_tool,
+    make_get_ticket_status_tool, make_create_support_ticket_tool,
+    make_escalate_support_case_tool,
+)
 from orchestrator import ToolOrchestrator, CallerContext
 
 
-def banner(title: str):
-    print(f"\n{'=' * 70}\n{title}\n{'=' * 70}")
-
-
-def show(label: str, response: dict):
-    print(f"-- {label}")
-    print(f"   {response}")
+def show(title, result):
+    print(f"\n{title}\n{result}")
 
 
 def main():
-    # --- Set up Tool 1's engine: last week's RAG pipeline, with throwaway
-    #     example chunks purely so this demo is runnable standalone.
-    example_chunks = [
-        Chunk(chunk_id="T01::0", doc_id="T01", doc_title="ATM card facts",
-              text="Replacing a lost ATM card costs a small administrative fee and takes three working days."),
-        Chunk(chunk_id="T02::0", doc_id="T02", doc_title="Branch hours",
-              text="Branches are open Monday to Friday, 8am to 5pm, and Saturday mornings."),
-    ]
-    rag_pipeline = RagPipeline.from_chunks(example_chunks)
-
-    kb_down = {"value": False}
+    service_down = {"value": False}
     ticket_down = {"value": False}
-    ticket_malformed = {"value": False}
-    ticket_store: list[dict] = []
+    create_malformed = {"value": False}
+    escalation_down = {"value": False}
+    tickets = {
+        "CS-10245": {
+            "ticket_id": "CS-10245", "customer_id": "CUST-88213",
+            "status": "in_progress", "category": "mobile_banking",
+            "created_at": "2026-09-20T10:02:00Z", "last_updated": "2026-09-21T14:30:00Z",
+            "summary": "Repeated mobile app login failures.",
+        },
+        "CS-10246": {
+            "ticket_id": "CS-10246", "customer_id": "CUST-OTHER",
+            "status": "open", "category": "card_services",
+            "created_at": "2026-09-20T10:02:00Z", "last_updated": "2026-09-21T14:30:00Z",
+            "summary": "Private record for ownership-check demonstration.",
+        },
+    }
+    approved = {}
+    service_data = default_service_data()
+    service_data["mobile_banking"]["status"] = "degraded"
+    service_data["mobile_banking"]["message"] = "Simulated demo status; not live bank data."
 
-    tool1 = make_search_knowledge_base_tool(rag_pipeline, simulate_down=kb_down)
-    tool2 = make_create_support_ticket_tool(ticket_store, simulate_down=ticket_down, simulate_malformed=ticket_malformed)
+    tools = [
+        make_get_service_status_tool(service_data, service_down),
+        make_get_ticket_status_tool(tickets, ticket_down),
+        make_create_support_ticket_tool(tickets, ticket_down, create_malformed),
+        make_escalate_support_case_tool(approved, escalation_down),
+    ]
+    runner = ToolOrchestrator(tools)
+    customer = CallerContext(auth_level=2, customer_id="CUST-88213")
 
-    orchestrator = ToolOrchestrator([tool1, tool2])
+    show("1. get_service_status (specific service)", runner.call("get_service_status", {"service_name": "mobile_banking"}, customer))
+    show("2. get_service_status (service_name omitted: all monitored services)", runner.call("get_service_status", {}, customer))
+    show("3. get_ticket_status (ticket belongs to caller)", runner.call("get_ticket_status", {"ticket_id": "CS-10245"}, customer))
+    show("4. get_ticket_status (different customer's ticket; no details returned)", runner.call("get_ticket_status", {"ticket_id": "CS-10246"}, customer))
+    show("5. create_support_ticket", runner.call("create_support_ticket", {
+        "category": "mobile_banking", "description": "Mobile banking sign-in fails repeatedly since this morning.",
+        "channel": "chat", "suggested_priority": "medium",
+    }, customer))
 
-    guest = CallerContext(auth_level=1)                       # can read, cannot write
-    agent = CallerContext(auth_level=2)                       # can request writes
-    agent_approved = CallerContext(auth_level=2, human_approved=True)  # write, human signed off
+    escalation = {"case_reference": "CS-10245", "reason": "Customer reports suspected unauthorized account access.", "urgency": "high"}
+    show("6. escalate_support_case without human approval", runner.call("escalate_support_case", escalation, customer))
+    token = "APPR-demo-0001"
+    approved[token] = dict(escalation)
+    approved_context = CallerContext(auth_level=2, customer_id="CUST-88213", human_approved=True, human_approval_token=token)
+    show("7. escalate_support_case after explicit human approval", runner.call("escalate_support_case", escalation, approved_context))
 
-    # -------------------------------------------------------------------
-    banner("1. search_knowledge_base -- success path (low risk, no approval needed)")
-    r = orchestrator.call("search_knowledge_base", {"query": "how much to replace a lost ATM card"}, guest)
-    show("guest asks a question", r)
-    assert r["status"] == "success" and r["result"]["results"], "expected a successful hit"
+    service_down["value"] = True
+    show("8. service status backend unavailable", runner.call("get_service_status", {}, customer))
+    service_down["value"] = False
+    show("9. required ticket_id missing", runner.call("get_ticket_status", {}, customer))
+    show("10. unknown service name", runner.call("get_service_status", {"service_name": "branch_network"}, customer))
 
-    # -------------------------------------------------------------------
-    banner("2. create_support_ticket -- higher-impact tool blocked pending human approval")
-    args = {"customer_ref": "CUST-4471", "subject": "Card not received",
-            "description": "Customer says replacement ATM card never arrived after 10 days.", "priority": "high"}
-    r = orchestrator.call("create_support_ticket", args, agent)
-    show("agent requests a ticket (not yet approved)", r)
-    assert r["status"] == "pending_approval"
-
-    banner("3. create_support_ticket -- same request, now human-approved")
-    r = orchestrator.call("create_support_ticket", args, agent_approved)
-    show("same request, human_approved=True", r)
-    assert r["status"] == "success" and "ticket_id" in r["result"]
-
-    # -------------------------------------------------------------------
-    banner("4. Failure mode: missing required parameter")
-    r = orchestrator.call("search_knowledge_base", {}, guest)
-    show("search with no query", r)
-    assert r["status"] == "error" and r["error_type"] == "invalid_arguments"
-
-    r = orchestrator.call("create_support_ticket", {"customer_ref": "CUST-1"}, agent_approved)
-    show("create_ticket missing subject/description", r)
-    assert r["status"] == "error" and r["error_type"] == "invalid_arguments"
-
-    # -------------------------------------------------------------------
-    banner("5. Failure mode: unauthorized request")
-    r = orchestrator.call("create_support_ticket", args, guest)  # guest has auth_level 1, tool needs 2
-    show("guest (auth_level=1) tries to create a ticket directly", r)
-    assert r["status"] == "error" and r["error_type"] == "unauthorized"
-
-    # -------------------------------------------------------------------
-    banner("6. Failure mode: downstream service unavailable")
-    kb_down["value"] = True
-    r = orchestrator.call("search_knowledge_base", {"query": "branch hours"}, guest)
-    show("knowledge base is down", r)
-    assert r["status"] == "error" and r["error_type"] == "service_unavailable"
-    kb_down["value"] = False  # restore for later use
-
-    ticket_down["value"] = True
-    r = orchestrator.call("create_support_ticket", args, agent_approved)
-    show("ticketing backend is down", r)
-    assert r["status"] == "error" and r["error_type"] == "service_unavailable"
-    ticket_down["value"] = False
-
-    # -------------------------------------------------------------------
-    banner("7. Failure mode: unexpected/malformed tool response")
-    ticket_malformed["value"] = True
-    r = orchestrator.call("create_support_ticket", args, agent_approved)
-    show("ticketing backend returns a record missing ticket_id", r)
-    assert r["status"] == "error" and r["error_type"] == "unexpected_response"
-    ticket_malformed["value"] = False
-
-    # -------------------------------------------------------------------
-    banner("8. Failure mode: unanswerable query -- not an error, empty result")
-    r = orchestrator.call("search_knowledge_base", {"query": "what is today's forex rate for yen"}, guest)
-    show("out-of-corpus question", r)
-    assert r["status"] == "success" and r["result"]["results"] == []
-
-    banner("All scenarios passed")
-    print(f"Tickets actually created in this run: {len(ticket_store)}")
-    for t in ticket_store:
-        print("  ", t)
+    print("\nDemo data is synthetic. Service status and ticket records are not connected to Centenary Bank systems.")
 
 
 if __name__ == "__main__":
