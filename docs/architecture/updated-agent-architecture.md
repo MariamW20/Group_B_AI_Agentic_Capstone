@@ -2,7 +2,7 @@
 
 This architecture extends the Week 3 grounded RAG flow with an allow-listed tool registry, deterministic validation, authorization, structured failures and a human approval gate for higher-impact actions.
 
-![Updated Week 4 agent architecture](agentarchitecture-week4.png)
+![Updated Week 4 agent architecture](agentarchitecture-week4-final.png)
 
 ```mermaid
 flowchart TD
