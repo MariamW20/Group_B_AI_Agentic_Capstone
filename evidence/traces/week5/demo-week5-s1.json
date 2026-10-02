@@ -1,0 +1,67 @@
+[
+  {
+    "iteration": 1,
+    "intent": "",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 2,
+    "intent": "",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 3,
+    "intent": "",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 4,
+    "intent": "",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 4,
+    "stop_reason": "iteration_limit_reached",
+    "terminal_outcome": "ITERATION_LIMIT_REACHED"
+  }
+]

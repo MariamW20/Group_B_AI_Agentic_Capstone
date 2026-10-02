@@ -1,0 +1,68 @@
+[
+  {
+    "iteration": 1,
+    "intent": "check_ticket_status",
+    "planned_action": "check_ticket_status",
+    "gate_decision": "approved",
+    "tool_name": "get_ticket_status",
+    "arguments": {
+      "ticket_id": "CS-10245"
+    },
+    "status": "success",
+    "status_code": "OK",
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": "ticket_status_returned",
+    "terminal_outcome": "TICKET_STATUS_RETURNED"
+  },
+  {
+    "iteration": 1,
+    "intent": "",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 1,
+    "intent": "check_ticket_status",
+    "planned_action": "check_ticket_status",
+    "gate_decision": "approved",
+    "tool_name": "get_ticket_status",
+    "arguments": {
+      "ticket_id": "CS-10245"
+    },
+    "status": "success",
+    "status_code": "OK",
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": "ticket_status_returned",
+    "terminal_outcome": "TICKET_STATUS_RETURNED"
+  },
+  {
+    "iteration": 1,
+    "intent": "check_ticket_status",
+    "planned_action": "check_ticket_status",
+    "gate_decision": "approved",
+    "tool_name": "get_ticket_status",
+    "arguments": {
+      "ticket_id": "CS-10245"
+    },
+    "status": "success",
+    "status_code": "OK",
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": "ticket_status_returned",
+    "terminal_outcome": "TICKET_STATUS_RETURNED"
+  }
+]

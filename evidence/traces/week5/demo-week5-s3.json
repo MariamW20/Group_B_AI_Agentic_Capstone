@@ -1,0 +1,203 @@
+[
+  {
+    "iteration": 1,
+    "intent": "check_service_status",
+    "planned_action": "check_service_status",
+    "gate_decision": "approved",
+    "tool_name": "get_service_status",
+    "arguments": {
+      "service_name": "ATM"
+    },
+    "status": "error",
+    "status_code": null,
+    "error_type": "invalid_arguments",
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": "",
+    "terminal_outcome": ""
+  },
+  {
+    "iteration": 2,
+    "intent": "check_service_status",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 3,
+    "intent": "check_service_status",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 4,
+    "intent": "check_service_status",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 4,
+    "stop_reason": "iteration_limit_reached",
+    "terminal_outcome": "ITERATION_LIMIT_REACHED"
+  },
+  {
+    "iteration": 1,
+    "intent": "check_service_status",
+    "planned_action": "check_service_status",
+    "gate_decision": "approved",
+    "tool_name": "get_service_status",
+    "arguments": {
+      "service_name": "ATM network"
+    },
+    "status": "error",
+    "status_code": null,
+    "error_type": "invalid_arguments",
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": "",
+    "terminal_outcome": ""
+  },
+  {
+    "iteration": 2,
+    "intent": "check_service_status",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 3,
+    "intent": "check_service_status",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 4,
+    "intent": "check_service_status",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 4,
+    "stop_reason": "iteration_limit_reached",
+    "terminal_outcome": "ITERATION_LIMIT_REACHED"
+  },
+  {
+    "iteration": 1,
+    "intent": "check_service_status",
+    "planned_action": "check_service_status",
+    "gate_decision": "approved",
+    "tool_name": "get_service_status",
+    "arguments": {
+      "service_name": "ATM network"
+    },
+    "status": "error",
+    "status_code": null,
+    "error_type": "invalid_arguments",
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": "",
+    "terminal_outcome": ""
+  },
+  {
+    "iteration": 2,
+    "intent": "check_service_status",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 3,
+    "intent": "check_service_status",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 4,
+    "intent": "check_service_status",
+    "planned_action": null,
+    "gate_decision": "rejected_bad_json",
+    "tool_name": null,
+    "arguments": null,
+    "status": null,
+    "status_code": null,
+    "error_type": null,
+    "retried": false,
+    "approval_status": "not_required",
+    "stop_reason": null,
+    "terminal_outcome": null
+  },
+  {
+    "iteration": 4,
+    "stop_reason": "iteration_limit_reached",
+    "terminal_outcome": "ITERATION_LIMIT_REACHED"
+  }
+]
