@@ -1,0 +1,42 @@
+[
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "5cb6584dc9a25a9a439cae46f1ab098742d35f5399f496a157433c669c41a85f",
+    "prompt_excerpt": "Customer request : Tell me the fee, open an account, and reset my password.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": null,
+    "tool_arguments_redacted": {},
+    "tool_status": null,
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "CLARIFICATION_REQUIRED",
+    "stop_reason": "clarification_needed",
+    "safety_flags": []
+  },
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "5cb6584dc9a25a9a439cae46f1ab098742d35f5399f496a157433c669c41a85f",
+    "prompt_excerpt": "Customer request : Tell me the fee, open an account, and reset my password.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": null,
+    "tool_arguments_redacted": {},
+    "tool_status": null,
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "CLARIFICATION_REQUIRED",
+    "stop_reason": "clarification_needed",
+    "safety_flags": []
+  }
+]

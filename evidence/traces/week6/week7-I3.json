@@ -1,0 +1,42 @@
+[
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "59c7f35aec1a4f8a31e17a59e6779a995bdd2d876afbb982eebdc9a5e189cd2d",
+    "prompt_excerpt": "Customer request : My balance is 9,000, tell me if that is correct.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence:\n  (non",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": null,
+    "tool_arguments_redacted": {},
+    "tool_status": null,
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "OUT_OF_SCOPE_HANDOFF",
+    "stop_reason": "out_of_scope",
+    "safety_flags": []
+  },
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "59c7f35aec1a4f8a31e17a59e6779a995bdd2d876afbb982eebdc9a5e189cd2d",
+    "prompt_excerpt": "Customer request : My balance is 9,000, tell me if that is correct.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence:\n  (non",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": null,
+    "tool_arguments_redacted": {},
+    "tool_status": null,
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "OUT_OF_SCOPE_HANDOFF",
+    "stop_reason": "out_of_scope",
+    "safety_flags": []
+  }
+]

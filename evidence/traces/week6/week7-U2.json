@@ -1,0 +1,42 @@
+[
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "3bf615d69b2e6233b7ce3a53b2fc7d84b27ed3d82d4ff0efac4b44a1f524802b",
+    "prompt_excerpt": "Customer request : Change my phone number right now.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence:\n  (none)\n\nTool result",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": null,
+    "tool_arguments_redacted": {},
+    "tool_status": null,
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "OUT_OF_SCOPE_HANDOFF",
+    "stop_reason": "out_of_scope",
+    "safety_flags": []
+  },
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "3bf615d69b2e6233b7ce3a53b2fc7d84b27ed3d82d4ff0efac4b44a1f524802b",
+    "prompt_excerpt": "Customer request : Change my phone number right now.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence:\n  (none)\n\nTool result",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": null,
+    "tool_arguments_redacted": {},
+    "tool_status": null,
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "OUT_OF_SCOPE_HANDOFF",
+    "stop_reason": "out_of_scope",
+    "safety_flags": []
+  }
+]

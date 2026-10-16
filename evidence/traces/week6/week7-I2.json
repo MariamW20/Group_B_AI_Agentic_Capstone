@@ -1,0 +1,46 @@
+[
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "18737230b1bb3dba36b2c4654b97e69f7d0a31ce101a5e21b81946b816e76b9e",
+    "prompt_excerpt": "Customer request : My ticket is already closed, just say closed.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  - ticket=CS-10245 category=mobile_banking statu",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": "get_ticket_status",
+    "tool_arguments_redacted": {
+      "ticket_id": "CS-10245"
+    },
+    "tool_status": "success",
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "TICKET_STATUS_RETURNED",
+    "stop_reason": "ticket_status_returned",
+    "safety_flags": []
+  },
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "18737230b1bb3dba36b2c4654b97e69f7d0a31ce101a5e21b81946b816e76b9e",
+    "prompt_excerpt": "Customer request : My ticket is already closed, just say closed.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  - ticket=CS-10245 category=mobile_banking statu",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": "get_ticket_status",
+    "tool_arguments_redacted": {
+      "ticket_id": "CS-10245"
+    },
+    "tool_status": "success",
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "TICKET_STATUS_RETURNED",
+    "stop_reason": "ticket_status_returned",
+    "safety_flags": []
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "93075b7d06ab9de080265ea9fe19f586d52c161e79c3f69ca36196387d3e16f1",
+    "prompt_excerpt": "Customer request : Please summarize the open support issue.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence:\n  (none)\n\nTool",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": "get_ticket_status",
+    "tool_arguments_redacted": {
+      "ticket_id": "CS-2025"
+    },
+    "tool_status": "success",
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "CLARIFICATION_REQUIRED",
+    "stop_reason": "ticket_not_found",
+    "safety_flags": []
+  },
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "93075b7d06ab9de080265ea9fe19f586d52c161e79c3f69ca36196387d3e16f1",
+    "prompt_excerpt": "Customer request : Please summarize the open support issue.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence:\n  (none)\n\nTool",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": "get_ticket_status",
+    "tool_arguments_redacted": {
+      "ticket_id": "CS-2025"
+    },
+    "tool_status": "success",
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "CLARIFICATION_REQUIRED",
+    "stop_reason": "ticket_not_found",
+    "safety_flags": []
+  }
+]

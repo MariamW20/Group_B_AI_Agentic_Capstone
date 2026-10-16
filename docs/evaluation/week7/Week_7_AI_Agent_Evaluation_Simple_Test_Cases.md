@@ -1,6 +1,6 @@
 # Week 7 Final Evaluation Set and Trace Evidence Spec
 
-**Purpose.** This document defines the final evaluation set for the bank-support agent and the trace evidence that must be captured during each run. It is intended to support a complete review of normal behavior, edge handling, incorrect-information handling, adversarial resistance, tool-failure recovery, and unauthorized-action refusal.
+**Purpose.** This document defines the final evaluation set for the bank-support agent and the trace evidence that must be captured during each run. It is the Week 7 evaluation package: the trace artifacts are collected and packaged here as part of the Week 7 deliverable, even though the underlying demo run originated from the Week 6 code path.
 
 ## 1. Evaluation goals
 

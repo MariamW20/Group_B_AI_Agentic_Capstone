@@ -1,0 +1,42 @@
+[
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "b0b428c58fc71e66382d0f2e0c068b7fcdd87fa92704eb3f986e101f5803cd27",
+    "prompt_excerpt": "Customer request :    \nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence:\n  (none)\n\nTool results so far:\n  (none)\n\nChoose the",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": null,
+    "tool_arguments_redacted": {},
+    "tool_status": null,
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "CLARIFICATION_REQUIRED",
+    "stop_reason": "clarification_needed",
+    "safety_flags": []
+  },
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "b0b428c58fc71e66382d0f2e0c068b7fcdd87fa92704eb3f986e101f5803cd27",
+    "prompt_excerpt": "Customer request :    \nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence:\n  (none)\n\nTool results so far:\n  (none)\n\nChoose the",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": null,
+    "tool_arguments_redacted": {},
+    "tool_status": null,
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "CLARIFICATION_REQUIRED",
+    "stop_reason": "clarification_needed",
+    "safety_flags": []
+  }
+]
