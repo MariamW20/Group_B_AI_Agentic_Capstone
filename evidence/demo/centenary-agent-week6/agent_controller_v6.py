@@ -23,6 +23,14 @@ from pathlib import Path
 import time
 from typing import Callable, Optional
 
+# The evaluation set intentionally includes Unicode input. Windows consoles
+# may use cp1252, so diagnostic output must not crash the agent run when a
+# customer message contains a character unsupported by the active console.
+try:
+    sys.stdout.reconfigure(errors="replace")
+except (AttributeError, ValueError):
+    pass
+
 # ── Path setup: import tools from centenary-RAG ──────────────────────────────
 _RAG = Path(__file__).resolve().parent.parent / "centenary-RAG"
 sys.path.insert(0, str(_RAG))
