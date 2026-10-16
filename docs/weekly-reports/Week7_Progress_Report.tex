@@ -1,9 +1,8 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[10pt,a4paper,twocolumn]{article}
 
-\usepackage[margin=2.5cm]{geometry}
+\usepackage[top=2.2cm,bottom=2.2cm,left=1.8cm,right=1.8cm,columnsep=0.6cm]{geometry}
 \usepackage{booktabs}
 \usepackage{array}
-\usepackage{tabularx}
 \usepackage{parskip}
 \usepackage{microtype}
 \usepackage{enumitem}
@@ -11,260 +10,230 @@
 \usepackage{titlesec}
 \usepackage{hyperref}
 \usepackage{caption}
+\usepackage{setspace}
 
-\hypersetup{
-  colorlinks=false,
-  hidelinks
-}
+\hypersetup{colorlinks=false, hidelinks}
 
-\captionsetup{
-  font=small,
-  labelfont=bf,
-  skip=4pt
-}
+\captionsetup{font=scriptsize, labelfont=bf, skip=3pt}
 
-\setlist[itemize]{nosep, topsep=2pt, partopsep=0pt, leftmargin=*}
-\setlist[enumerate]{nosep, topsep=2pt, partopsep=0pt, leftmargin=*}
+\setlist[itemize]{nosep, topsep=1pt, partopsep=0pt, leftmargin=1.2em}
 
-\titleformat{\section}{\normalfont\large\bfseries}{\thesection.}{0.5em}{}
-\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection.}{0.5em}{}
-\titlespacing*{\section}{0pt}{10pt}{4pt}
-\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+\titleformat{\section}{\normalfont\normalsize\bfseries}{\thesection.}{0.4em}{}
+\titleformat{\subsection}{\normalfont\small\bfseries}{\thesubsection.}{0.4em}{}
+\titlespacing*{\section}{0pt}{7pt}{3pt}
+\titlespacing*{\subsection}{0pt}{4pt}{2pt}
+
+\setlength{\parskip}{3pt}
+\setlength{\parindent}{0pt}
 
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0.4pt}
-\fancyhead[L]{\small BSE4104 --- Group B}
-\fancyhead[R]{\small Week 7 Progress Report}
-\fancyfoot[C]{\thepage}
+\fancyhead[L]{\scriptsize BSE4104 --- Group B}
+\fancyhead[R]{\scriptsize Week 7 Progress Report}
+\fancyfoot[C]{\scriptsize\thepage}
 
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
-\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
 
-% ────────────────────────────────────────────────────────────────────────────
+% ---------------------------------------------------------------------------
 \begin{document}
 
+% Full-width title block
+\twocolumn[{%
 \begin{center}
-  {\LARGE\bfseries Centenary Bank Helpdesk Agent}\\[6pt]
-  {\large\bfseries Week 7 Progress Report}\\[4pt]
-  {\large Evaluation, Observability and Guardrails}\\[10pt]
-  {\normalsize
-    BSE4104 Emerging Trends in Software Engineering\\
-    Group B \quad|\quad October 2026
-  }
+  {\large\bfseries Centenary Bank Helpdesk Agent --- Week 7 Progress Report}\\[3pt]
+  {\normalsize Evaluation, Observability and Guardrails}\\[4pt]
+  {\small BSE4104 Emerging Trends in Software Engineering \quad|\quad
+         Group B \quad|\quad October 2026}
 \end{center}
+\vspace{3pt}\noindent\rule{\textwidth}{0.4pt}\vspace{6pt}
+}]
 
-\vspace{4pt}
-\noindent\rule{\textwidth}{0.4pt}
-\vspace{4pt}
-
-% ────────────────────────────────────────────────────────────────────────────
+% ---------------------------------------------------------------------------
 \section{Introduction}
 
 Week 7 consolidated the Centenary Bank Helpdesk Agent into a fully evaluated,
 observable, and safety-guarded prototype. Building on the persistent-memory
-agentic loop completed in Week 6, this week delivered four interconnected
-deliverables: a 30-scenario evaluation set, a structured observability and
-tracing bundle, a failure catalogue, and a guardrail implementation module.
-Together these demonstrate that the agent can be evaluated systematically
-against a defined test set, that every decision is fully auditable, and that
-explicit, independently testable safety controls are in place.
+agentic loop from Week 6, this week delivered four interconnected
+deliverables: a 30-scenario evaluation set, a structured observability trace
+bundle, a failure catalogue, and a dedicated guardrail implementation module.
+Together they prove the agent can be evaluated systematically, its behaviour
+is fully auditable, and it contains explicit, testable safety controls.
 
-% ────────────────────────────────────────────────────────────────────────────
+% ---------------------------------------------------------------------------
 \section{Evaluation Framework}
 
-\subsection{30-Scenario Evaluation Set}
+\subsection{30-Scenario Test Set}
 
-A formal evaluation set was designed to exercise the agent across six scenario
-categories, with five cases in each. Each scenario specifies the user request,
-the expected agent behaviour, the correct tool path, and any safety flags that
-should be recorded. The categories are summarised in Table~\ref{tab:eval}.
+The evaluation set covers six categories of five scenarios each. Each scenario
+specifies the user request, expected behaviour, tool path, and safety flags.
 
 \begin{table}[h]
   \centering
-  \caption{Evaluation categories and their focus areas}
+  \caption{Evaluation categories}
   \label{tab:eval}
-  \small
-  \begin{tabular}{@{} L{3.0cm} C{1.0cm} L{8.0cm} @{}}
+  \scriptsize
+  \begin{tabular}{@{} L{1.9cm} C{0.5cm} L{3.4cm} @{}}
     \toprule
-    \textbf{Category} & \textbf{Cases} & \textbf{Focus} \\
+    \textbf{Category} & \textbf{N} & \textbf{Focus} \\
     \midrule
-    Normal            & 5 & Branch hours, account opening, card loss, transfer fees, ticket creation \\
-    Edge              & 5 & Empty input, ambiguous request, multi-intent, noisy text, long message \\
-    Incorrect info    & 5 & False policy claims, wrong ticket status, fake balance, stale rule, nonexistent source \\
-    Adversarial       & 5 & Prompt injection, reasoning extraction, secret exfiltration, malicious retrieval, fabrication \\
-    Tool failure      & 5 & Empty retrieval, timeout, malformed output, service error, partial data \\
-    Unauthorised      & 5 & Cross-customer access, account change, funds transfer, loan approval, credential request \\
+    Normal         & 5 & Branch hours, fees, ticket creation \\
+    Edge           & 5 & Empty, ambiguous, multi-intent, noisy \\
+    Incorrect info & 5 & False claims, stale data, fake balance \\
+    Adversarial    & 5 & Injection, exfiltration, fabrication \\
+    Tool failure   & 5 & Empty retrieval, timeout, malformed \\
+    Unauthorised   & 5 & Cross-customer, funds, loan, credential \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\subsection{Measurable Metrics}
+\subsection{Metrics}
 
-Six metrics were defined for every scenario: task completion, groundedness,
-tool selection accuracy, instruction following, latency, and safety violations.
-The evaluation harness (\texttt{week7\_evaluation\_harness.py}) executes the
-real Week 6 controller against all 30 scenarios using a scripted planner and
-records structured trace events for each run. Suggested latency budgets were
-set at 3{,}000\,ms for direct answers, 8{,}000\,ms for tool-using scenarios,
-and 12{,}000\,ms for failure-recovery paths.
+Six metrics assessed per scenario: task completion, groundedness, tool
+selection, instruction following, latency, and safety violations. The
+evaluation harness (\texttt{week7\_evaluation\_harness.py}) runs the real
+Week 6 controller against every scenario with a scripted planner and records
+structured trace events. Latency budgets: 3\,000\,ms (direct answer),
+8\,000\,ms (tool call), 12\,000\,ms (failure recovery).
 
-% ────────────────────────────────────────────────────────────────────────────
+% ---------------------------------------------------------------------------
 \section{Observability and Tracing}
 
-Every evaluation run emits a structured trace stored in
+Every run emits a structured trace in
 \texttt{evidence/traces/week7/week7-observability-evidence.json}. Each record
-captures the fields defined in the Week 7 trace specification:
+captures:
 
 \begin{itemize}
-  \item \textbf{Prompt fingerprint.} Template identifier and SHA-256 hash of
-        the rendered prompt, so that any prompt change between runs is
-        detectable by comparing hashes.
-  \item \textbf{Retrieval context.} The query issued to the knowledge base,
-        the IDs of retrieved passages, and the relevance scores returned.
-  \item \textbf{Tool trace.} The tool name selected, redacted arguments
-        (identity fields removed before logging), the tool status, and the
-        error type when the call failed.
-  \item \textbf{Latency.} Per-iteration planning latency and total end-to-end
+  \item \textbf{Prompt fingerprint:} template ID and SHA-256 hash so any
+        prompt change between runs is detectable.
+  \item \textbf{Retrieval context:} query issued, retrieved source IDs, and
+        relevance scores.
+  \item \textbf{Tool trace:} tool name, redacted arguments (identity fields
+        removed), status, and error type.
+  \item \textbf{Latency:} per-iteration planning latency and total end-to-end
         latency in milliseconds.
-  \item \textbf{Terminal outcome.} The controller's final state label, such as
+  \item \textbf{Terminal outcome:} controller's final state label, e.g.\
         \texttt{TICKET\_CREATED} or \texttt{OUT\_OF\_SCOPE\_HANDOFF}.
-  \item \textbf{Safety flags.} Structured labels emitted when a guardrail
-        fires or a policy boundary is crossed during the run.
+  \item \textbf{Safety flags:} structured labels emitted when a guardrail
+        fires or a policy boundary is crossed.
 \end{itemize}
 
-The trace design satisfies the requirement that any run can be fully
-reconstructed offline without relying on console output, enabling retrospective
-audits and regression testing.
+The design satisfies the requirement that any run can be reconstructed offline
+without console output.
 
-% ────────────────────────────────────────────────────────────────────────────
+% ---------------------------------------------------------------------------
 \section{Failure Catalogue}
 
-Five controlled failure conditions were identified, exercised under the
-evaluation harness, and remediated. Each entry in the catalogue records the
-failure type, its root cause, the remediation applied, and a reference to the
-re-test trace evidence. All five cases re-tested as \textit{Pass}.
+Five controlled failure conditions were identified, exercised, and remediated.
+All five re-tested as \textit{Pass}.
 
 \begin{table}[h]
   \centering
-  \caption{Failure catalogue --- five cases, all remediated and re-tested}
+  \caption{Failure catalogue (all remediated)}
   \label{tab:failures}
-  \small
-  \begin{tabular}{@{} C{0.8cm} L{3.0cm} L{4.2cm} L{4.0cm} @{}}
+  \scriptsize
+  \begin{tabular}{@{} C{0.55cm} L{1.8cm} L{3.4cm} @{}}
     \toprule
-    \textbf{ID} & \textbf{Failure type} & \textbf{Root cause} & \textbf{Remediation} \\
+    \textbf{ID} & \textbf{Failure} & \textbf{Remediation} \\
     \midrule
-    F-01 & Grounding failure       & No evidence returned for a fee query    & Evidence-required response; no-fabrication guard \\
-    F-02 & Unicode encode error    & Emoji in input printed to cp1252 console & \texttt{stdout} configured with \texttt{errors="replace"} \\
-    F-03 & Ticket not found        & Requested ticket ID has no record       & \texttt{NOT\_FOUND} status mapped to clarification outcome \\
-    F-04 & Invalid service name    & Identifier not in allowed enum          & Enum validated before tool call; safe handoff on failure \\
-    F-05 & Prompt injection        & User attempts to override system prompt & User content treated as untrusted; refusal path taken \\
+    F-01 & Grounding failure    & Evidence required; no-fabrication guard \\
+    F-02 & Unicode encode error & \texttt{stdout} uses \texttt{errors="replace"} \\
+    F-03 & Ticket not found     & \texttt{NOT\_FOUND} mapped to clarification \\
+    F-04 & Invalid service name & Enum validated before tool call \\
+    F-05 & Prompt injection     & User content treated as untrusted \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-Individual re-test traces are stored as \texttt{week7-T1.json},
-\texttt{week7-T3.json}, \texttt{week7-T4.json}, and \texttt{week7-A1.json}
-under \texttt{evidence/traces/week7/}.
-
-% ────────────────────────────────────────────────────────────────────────────
+% ---------------------------------------------------------------------------
 \section{Guardrail Implementation}
 
 \subsection{Motivation}
 
 The Week 6 controller contained safety controls embedded inline across its
-planning, tool-execution, and observation steps. These controls were effective
-but implicit. The Week 7 guardrail deliverable extracted each control into an
-explicit, named function in a dedicated module (\texttt{guardrails.py}), making
-them independently callable, auditable by name, and testable in isolation.
+planning and observation steps. These were effective but implicit. The Week 7
+guardrail deliverable extracted each control into an explicit, named function
+in a dedicated module (\texttt{guardrails.py}), making every check
+independently callable and testable.
 
 \subsection{Ten Named Guardrails}
 
 \begin{table}[h]
   \centering
-  \caption{Guardrail catalogue --- all ten controls}
+  \caption{Guardrail catalogue}
   \label{tab:guardrails}
-  \small
-  \begin{tabular}{@{} C{0.8cm} L{3.5cm} L{4.2cm} L{3.5cm} @{}}
+  \scriptsize
+  \begin{tabular}{@{} C{0.55cm} L{2.1cm} L{3.1cm} @{}}
     \toprule
-    \textbf{ID} & \textbf{Name} & \textbf{What it blocks} & \textbf{Code reference} \\
+    \textbf{ID} & \textbf{Name} & \textbf{Blocks} \\
     \midrule
-    G-01 & Action allow-list        & Unapproved planner actions                 & \texttt{check\_action\_allowlist} \\
-    G-02 & Identity injection       & Model-supplied \texttt{customer\_id} or token   & \texttt{check\_identity\_injection} \\
-    G-03 & Tool allow-list          & Calls to unapproved tools                  & \texttt{check\_tool\_allowlist} \\
-    G-04 & Evidence grounding       & Factual answers without retrieved evidence & \texttt{check\_evidence\_grounding} \\
-    G-05 & Escalation approval gate & Escalation without human sign-off          & \texttt{check\_escalation\_approval} \\
-    G-06 & Memory-not-authorisation & Memory context auto-approving escalation   & \texttt{check\_memory\_not\_authorization} \\
-    G-07 & Credential non-disclosure & Echoing OTPs, PINs, passwords, API keys   & \texttt{check\_credential\_request} \\
-    G-08 & Scope boundary           & Funds transfer, loan approval, account change & \texttt{check\_scope} \\
-    G-09 & Prompt injection         & Instruction overrides, role substitution   & \texttt{check\_prompt\_injection} \\
-    G-10 & Iteration limit          & Loop executing beyond four iterations      & \texttt{check\_iteration\_limit} \\
+    G-01 & Action allow-list        & Unapproved planner actions \\
+    G-02 & Identity injection       & Model-supplied \texttt{customer\_id} or token \\
+    G-03 & Tool allow-list          & Calls to unapproved tools \\
+    G-04 & Evidence grounding       & Answers without retrieved evidence \\
+    G-05 & Escalation gate          & Escalation without human approval \\
+    G-06 & Memory-not-auth          & Memory auto-authorising escalation \\
+    G-07 & Credential guard         & Echoing OTPs, PINs, API keys \\
+    G-08 & Scope boundary           & Funds transfer, loan, account change \\
+    G-09 & Prompt injection         & Instruction overrides, role changes \\
+    G-10 & Iteration limit          & Loop beyond four iterations \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\subsection{Test Evidence}
+\subsection{Evidence}
 
-A dedicated demo script (\texttt{demo\_guardrails.py}) runs 27 test cases,
-covering both the ``safe input passes'' and ``unsafe input is blocked'' paths
-for every guardrail. The output is written to
-\texttt{evidence/traces/week7/guardrail-evidence.json}, recording the guardrail
-identifier, test input, trigger result, safety flag, and reason string for each
-case. All 27 cases passed with zero failures.
+A demo script (\texttt{demo\_guardrails.py}) runs 27 test cases, covering the
+safe-pass and unsafe-block paths for every guardrail. Results are written to
+\texttt{guardrail-evidence.json}. All 27 cases passed with zero failures.
 
-Key correctness properties verified by the tests include: no action or tool
-call executes outside the pre-approved sets (G-01, G-03); the model cannot
-supply or forge identity fields (G-02); no factual answer is produced when
-retrieval returns no evidence, preventing fabricated bank policies (G-04);
-prior case memory is read-only context and does not substitute for human
-approval of escalation (G-05, G-06); and prompt injection attempts and
-out-of-scope financial actions are blocked at input classification (G-08,
-G-09).
+Key properties verified: no action or tool executes outside the approved sets
+(G-01, G-03); the model cannot supply or forge identity fields (G-02); no
+factual answer is produced without retrieved evidence, preventing fabricated
+bank policies (G-04); prior case memory does not substitute for human approval
+(G-05, G-06); prompt injection attempts and out-of-scope financial actions are
+blocked at input classification (G-08, G-09).
 
-% ────────────────────────────────────────────────────────────────────────────
-\section{Deliverables Summary}
+% ---------------------------------------------------------------------------
+\section{Deliverables}
 
 \begin{table}[h]
   \centering
-  \caption{Week 7 deliverables and their locations}
+  \caption{Week 7 deliverables}
   \label{tab:deliverables}
-  \small
-  \begin{tabular}{@{} L{5.5cm} L{7.0cm} @{}}
+  \scriptsize
+  \begin{tabular}{@{} L{3.3cm} L{2.5cm} @{}}
     \toprule
     \textbf{Deliverable} & \textbf{File} \\
     \midrule
-    30-scenario evaluation set   & \texttt{docs/evaluation/week7/Week\_7\_AI\_Agent\_Evaluation\_Simple\_Test\_Cases.md} \\
-    Evaluation harness           & \texttt{evidence/demo/centenary-agent-week6/week7\_evaluation\_harness.py} \\
-    Observability trace bundle   & \texttt{evidence/traces/week7/week7-observability-evidence.json} \\
-    Failure catalogue            & \texttt{docs/evaluation/week7/Week7\_Failure\_Catalogue.md} \\
-    Guardrail module             & \texttt{evidence/demo/centenary-agent-week6/guardrails.py} \\
-    Guardrail demo               & \texttt{evidence/demo/centenary-agent-week6/demo\_guardrails.py} \\
-    Guardrail evidence           & \texttt{evidence/traces/week7/guardrail-evidence.json} \\
-    Guardrail catalogue          & \texttt{docs/evaluation/week7/Week7\_Guardrail\_Catalogue.md} \\
+    30-scenario evaluation set  & \texttt{Week\_7\_\ldots\_Test\_Cases.md} \\
+    Evaluation harness          & \texttt{week7\_evaluation\_harness.py} \\
+    Observability bundle        & \texttt{week7-observability-evidence.json} \\
+    Failure catalogue           & \texttt{Week7\_Failure\_Catalogue.md} \\
+    Guardrail module            & \texttt{guardrails.py} \\
+    Guardrail demo              & \texttt{demo\_guardrails.py} \\
+    Guardrail evidence          & \texttt{guardrail-evidence.json} \\
+    Guardrail catalogue         & \texttt{Week7\_Guardrail\_Catalogue.md} \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-% ────────────────────────────────────────────────────────────────────────────
+% ---------------------------------------------------------------------------
 \section{Conclusion}
 
-Week 7 brought the prototype to a state where its behaviour can be evaluated
-against a defined scenario set, its internal decisions are fully traceable, its
-known failure modes are catalogued and remediated, and its safety controls are
-named, implemented, and independently verified. All Week 7 acceptance criteria
-were met: all 30 evaluation scenarios are recorded, the five failure cases are
-remediated and re-tested as pass, and all 27 guardrail test cases pass with
-zero safety violations observed. The agent remains a prototype operating on
-synthetic data without production infrastructure, but the evaluation, tracing,
-and safety-control foundations are in place for a supervised production
-transition.
+Week 7 brought the prototype to a state where its behaviour is evaluable
+against a defined scenario set, its decisions are fully traceable, known
+failure modes are catalogued and remediated, and its safety controls are
+named, implemented, and verified. All acceptance criteria were met: 30
+scenarios executed and recorded, five failure cases remediated and re-tested,
+and all 27 guardrail test cases passing with zero safety violations. The
+evaluation, tracing, and guardrail foundations are in place for a supervised
+production transition.
 
-\vspace{6pt}
-\noindent\rule{\textwidth}{0.4pt}
-\vspace{2pt}
-{\small\noindent\textit{Source code and evidence artefacts: }
-\texttt{evidence/demo/centenary-agent-week6/} and
-\texttt{evidence/traces/week7/}}
+\vspace{4pt}
+\noindent\rule{\columnwidth}{0.4pt}
+{\scriptsize\textit{Evidence:} \texttt{evidence/demo/centenary-agent-week6/}
+and \texttt{evidence/traces/week7/}}
 
 \end{document}
