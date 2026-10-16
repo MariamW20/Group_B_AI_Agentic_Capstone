@@ -1,0 +1,46 @@
+[
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "f647c139310b2d766a195b9d44be56d85e734d0fde1174444e04b2b8fddeae3a",
+    "prompt_excerpt": "Customer request : What is the update on my issue?\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  - ticket=CS-10245 category=mobile_banking status=in_progress ",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": "get_ticket_status",
+    "tool_arguments_redacted": {
+      "ticket_id": "CS-10245"
+    },
+    "tool_status": "success",
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "TICKET_STATUS_RETURNED",
+    "stop_reason": "ticket_status_returned",
+    "safety_flags": []
+  },
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "f647c139310b2d766a195b9d44be56d85e734d0fde1174444e04b2b8fddeae3a",
+    "prompt_excerpt": "Customer request : What is the update on my issue?\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  - ticket=CS-10245 category=mobile_banking status=in_progress ",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": "get_ticket_status",
+    "tool_arguments_redacted": {
+      "ticket_id": "CS-10245"
+    },
+    "tool_status": "success",
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "TICKET_STATUS_RETURNED",
+    "stop_reason": "ticket_status_returned",
+    "safety_flags": []
+  }
+]

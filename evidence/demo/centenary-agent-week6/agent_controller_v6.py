@@ -20,6 +20,7 @@ import os
 import sys
 import uuid
 from pathlib import Path
+import time
 from typing import Callable, Optional
 
 # ── Path setup: import tools from centenary-RAG ──────────────────────────────
@@ -40,6 +41,7 @@ from tools import (                                         # noqa: E402
 from agent_state_v6 import AgentState
 from memory_store import MemoryStore
 from planner_v6 import ALLOWED_ACTIONS, ALLOWED_TOOLS
+from trace_recorder_v6 import append_trace
 
 MAX_ITERATIONS = 4
 MAX_RETRY      = 1
@@ -156,13 +158,36 @@ class AgentControllerV6:
         # ── Main loop ─────────────────────────────────────────────────────────
         while state.attempt_count < MAX_ITERATIONS:
             iterations_left = MAX_ITERATIONS - state.attempt_count
+            iteration_started = time.perf_counter()
 
             # ── PLAN ──────────────────────────────────────────────────────────
+            plan_started = time.perf_counter()
             plan = self._planner.decide(state, iterations_left)
+            plan_latency_ms = int((time.perf_counter() - plan_started) * 1000)
+            planner_trace = getattr(self._planner, "last_trace", {}) or {}
 
             if plan is None:
                 state.attempt_count += 1
                 _step("CLASSIFY_REQUEST", "planner returned None — re-planning")
+                append_trace(state.request_id, {
+                    "event": "iteration",
+                    "iteration": state.attempt_count,
+                    "model_name": planner_trace.get("model_name", type(self._planner).__name__),
+                    "prompt_template_id": planner_trace.get("prompt_template_id", "week6_state_model_prompt_v1"),
+                    "prompt_hash": planner_trace.get("prompt_hash", ""),
+                    "prompt_excerpt": planner_trace.get("prompt_excerpt", ""),
+                    "retrieved_source_ids": [e.get("doc_id", "") for e in state.retrieved_evidence],
+                    "retrieval_scores": [e.get("score", 0) for e in state.retrieved_evidence],
+                    "tool_name": None,
+                    "tool_arguments_redacted": {},
+                    "tool_status": "error",
+                    "error_type": planner_trace.get("error", "planner_failed"),
+                    "planning_latency_ms": plan_latency_ms,
+                    "iteration_latency_ms": int((time.perf_counter() - iteration_started) * 1000),
+                    "outcome": state.terminal_outcome,
+                    "stop_reason": state.stop_reason,
+                    "safety_flags": [],
+                })
                 continue
 
             action    = plan.get("action", "")
@@ -203,6 +228,7 @@ class AgentControllerV6:
                 if state.retrieved_evidence:
                     state.final_response = _compose_answer(state)
                     _stop(state, "grounded_answer_produced", "ANSWERED_FROM_KNOWLEDGE")
+                    append_trace(state.request_id, _trace_record(state, planner_trace, state.retrieved_evidence, plan, None, None, plan_latency_ms, int((time.perf_counter() - iteration_started) * 1000)))
                     break
                 # No evidence yet — search first
                 result = self._tool_call(
@@ -213,7 +239,9 @@ class AgentControllerV6:
                         "The knowledge base is temporarily unavailable. "
                         "Please contact Centenary Bank support.")
                     _stop(state, "kb_unavailable", "TOOL_FAILURE_HANDOFF")
+                    append_trace(state.request_id, _trace_record(state, planner_trace, state.retrieved_evidence, plan, "search_knowledge_base", result, plan_latency_ms, int((time.perf_counter() - iteration_started) * 1000)))
                     break
+                append_trace(state.request_id, _trace_record(state, planner_trace, state.retrieved_evidence, plan, "search_knowledge_base", result, plan_latency_ms, int((time.perf_counter() - iteration_started) * 1000)))
                 continue
 
             elif action == "ask_for_clarification":
@@ -221,6 +249,7 @@ class AgentControllerV6:
                     plan.get("reason")
                     or "Could you please provide more details so I can help?")
                 _stop(state, "clarification_needed", "CLARIFICATION_REQUIRED")
+                append_trace(state.request_id, _trace_record(state, planner_trace, state.retrieved_evidence, plan, None, None, plan_latency_ms, int((time.perf_counter() - iteration_started) * 1000)))
                 break
 
             elif action == "refuse_or_handoff":
@@ -228,11 +257,13 @@ class AgentControllerV6:
                     "I'm sorry — this request is outside what I can help with. "
                     "Please contact Centenary Bank directly.")
                 _stop(state, "out_of_scope", "OUT_OF_SCOPE_HANDOFF")
+                append_trace(state.request_id, _trace_record(state, planner_trace, state.retrieved_evidence, plan, None, None, plan_latency_ms, int((time.perf_counter() - iteration_started) * 1000)))
                 break
 
             # ── Escalation approval gate ───────────────────────────────────────
             elif action == "request_escalation_approval":
                 self._escalate(plan, session, state)
+                append_trace(state.request_id, _trace_record(state, planner_trace, state.retrieved_evidence, plan, None, None, plan_latency_ms, int((time.perf_counter() - iteration_started) * 1000)))
                 break
 
             # ── Tool-calling actions ───────────────────────────────────────────
@@ -255,9 +286,11 @@ class AgentControllerV6:
                             "Please try again later or contact support.")
                         _stop(state, "service_unavailable_after_retry",
                               "TOOL_FAILURE_HANDOFF")
+                        append_trace(state.request_id, _trace_record(state, planner_trace, state.retrieved_evidence, plan, tool_name, result, plan_latency_ms, int((time.perf_counter() - iteration_started) * 1000)))
                         break
 
                 stop = self._observe(tool_name, result, state, session)
+                append_trace(state.request_id, _trace_record(state, planner_trace, state.retrieved_evidence, plan, tool_name, result, plan_latency_ms, int((time.perf_counter() - iteration_started) * 1000)))
                 if stop:
                     break
 
@@ -267,6 +300,25 @@ class AgentControllerV6:
                 "I was unable to fully resolve your request within the allowed "
                 "steps.  Please contact Centenary Bank support.")
             _stop(state, "iteration_limit_reached", "ITERATION_LIMIT_REACHED")
+            append_trace(state.request_id, {
+                "event": "final",
+                "iteration": state.attempt_count,
+                "model_name": getattr(self._planner, "last_trace", {}).get("model_name", type(self._planner).__name__),
+                "prompt_template_id": getattr(self._planner, "last_trace", {}).get("prompt_template_id", "week6_state_model_prompt_v1"),
+                "prompt_hash": getattr(self._planner, "last_trace", {}).get("prompt_hash", ""),
+                "prompt_excerpt": getattr(self._planner, "last_trace", {}).get("prompt_excerpt", ""),
+                "retrieved_source_ids": [e.get("doc_id", "") for e in state.retrieved_evidence],
+                "retrieval_scores": [e.get("score", 0) for e in state.retrieved_evidence],
+                "tool_name": None,
+                "tool_arguments_redacted": {},
+                "tool_status": "error",
+                "error_type": "iteration_limit_reached",
+                "planning_latency_ms": getattr(self._planner, "last_trace", {}).get("latency_ms", 0),
+                "iteration_latency_ms": 0,
+                "outcome": state.terminal_outcome,
+                "stop_reason": state.stop_reason,
+                "safety_flags": [],
+            })
 
         _banner(f"COMPLETE — outcome={state.terminal_outcome}")
         print(f"  Response: {state.final_response}")
@@ -282,7 +334,9 @@ class AgentControllerV6:
             customer_id=session["customer_id"],
         )
         _step("EXECUTE_TOOL", f"calling {tool_name}  args={_safe_args(arguments)}")
+        start = time.perf_counter()
         result = self._orchestrator.call(tool_name, arguments, caller)
+        result["latency_ms"] = int((time.perf_counter() - start) * 1000)
         state.tool_calls.append({
             "tool":      tool_name,
             "arguments": _safe_args(arguments),
@@ -494,6 +548,31 @@ def _stop(state: AgentState, reason: str, outcome: str) -> None:
     state.stop_reason      = reason
     state.terminal_outcome = outcome
     _step("RESPOND", f"stop_reason={reason}  outcome={outcome}")
+
+
+def _trace_record(state: AgentState, planner_trace: dict, retrieved_evidence: list[dict], plan: dict,
+                  tool_name: str | None, result: dict | None, planning_latency_ms: int,
+                  iteration_latency_ms: int) -> dict:
+    return {
+        "event": "iteration",
+        "iteration": state.attempt_count,
+        "model_name": planner_trace.get("model_name", type(plan).__name__),
+        "prompt_template_id": planner_trace.get("prompt_template_id", "week6_state_model_prompt_v1"),
+        "prompt_hash": planner_trace.get("prompt_hash", ""),
+        "prompt_excerpt": planner_trace.get("prompt_excerpt", ""),
+        "retrieved_source_ids": [e.get("doc_id", "") for e in retrieved_evidence],
+        "retrieval_scores": [e.get("score", 0) for e in retrieved_evidence],
+        "tool_name": tool_name,
+        "tool_arguments_redacted": _safe_args((plan or {}).get("arguments") or {}),
+        "tool_status": (result or {}).get("status"),
+        "error_type": (result or {}).get("error_type"),
+        "planning_latency_ms": planning_latency_ms,
+        "tool_latency_ms": (result or {}).get("latency_ms", 0) if isinstance(result, dict) else 0,
+        "iteration_latency_ms": iteration_latency_ms,
+        "outcome": state.terminal_outcome,
+        "stop_reason": state.stop_reason,
+        "safety_flags": [],
+    }
 
 
 def _safe_args(arguments: dict) -> dict:

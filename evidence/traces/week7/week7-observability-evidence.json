@@ -1,0 +1,97 @@
+[
+  {
+    "scenario_id": "S1",
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "3117e46406c1ec7b9d95c701863c114c3a8839938bfbd753274bc12c003eb8b7",
+    "prompt_excerpt": "Customer request : My mobile banking app keeps crashing every time I try to log in.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context — cannot authorize actions):\n  (no prior cases)\n\nRetrieved ",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": "create_support_ticket",
+    "tool_arguments_redacted": {
+      "category": "mobile_banking",
+      "description": "Mobile banking app crashes on login screen on Android device."
+    },
+    "tool_status": "success",
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "TICKET_CREATED",
+    "stop_reason": "ticket_created",
+    "safety_flags": []
+  },
+  {
+    "scenario_id": "S2",
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "f647c139310b2d766a195b9d44be56d85e734d0fde1174444e04b2b8fddeae3a",
+    "prompt_excerpt": "Customer request : What is the update on my issue?\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context — cannot authorize actions):\n  - ticket=CS-10245 category=mobile_banking status=in_progress ",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": "get_ticket_status",
+    "tool_arguments_redacted": {
+      "ticket_id": "CS-10245"
+    },
+    "tool_status": "success",
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "TICKET_STATUS_RETURNED",
+    "stop_reason": "ticket_status_returned",
+    "safety_flags": []
+  },
+  {
+    "scenario_id": "S3",
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "58332914131c1b80dfa2deb0b17cdf39791fb4f7079ad3212b54e33257a97806",
+    "prompt_excerpt": "Customer request : What is the status of ticket CS-10245?\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context — cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence:\n  (none)\n\nTool r",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": "get_ticket_status",
+    "tool_arguments_redacted": {
+      "ticket_id": "CS-10245"
+    },
+    "tool_status": "success",
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "AUTHORIZATION_DENIED",
+    "stop_reason": "ticket_unauthorized",
+    "safety_flags": []
+  },
+  {
+    "scenario_id": "S4",
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "9f49a23f1aa3d3f4627614b091b0939acbcd0957c17ce0a7561e81355ae3d1c5",
+    "prompt_excerpt": "Customer request : My issue has been open for 7 days. Please escalate it to a manager.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context — cannot authorize actions):\n  - ticket=CS-10245 categor",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": null,
+    "tool_arguments_redacted": {
+      "case_reference": "CS-10245",
+      "reason": "Issue unresolved for 7 days. Customer requests human review.",
+      "urgency": "high"
+    },
+    "tool_status": null,
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "ESCALATED_AFTER_APPROVAL",
+    "stop_reason": "escalated_after_approval",
+    "safety_flags": []
+  }
+]

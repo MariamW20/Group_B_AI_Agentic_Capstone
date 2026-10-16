@@ -15,8 +15,10 @@ GeminiPlannerV6
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
+import time
 import urllib.request
 import urllib.error
 from typing import List, Optional
@@ -60,9 +62,21 @@ class ScriptedPlanner:
     def __init__(self, script: List[dict]) -> None:
         self._script = list(script)
         self._pos = 0
+        self.last_trace: dict = {}
 
     def decide(self, state: AgentState, iterations_left: int) -> Optional[dict]:
+        prompt = build_prompt(state, iterations_left)
+        prompt_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
         if self._pos >= len(self._script):
+            self.last_trace = {
+                "model_name": "scripted",
+                "prompt_template_id": "week6_state_model_prompt_v1",
+                "prompt_hash": prompt_hash,
+                "prompt_excerpt": prompt[:240],
+                "latency_ms": 0,
+                "status": "ok",
+                "error": None,
+            }
             return {
                 "intent": "unknown",
                 "action": "refuse_or_handoff",
@@ -72,6 +86,15 @@ class ScriptedPlanner:
             }
         plan = self._script[self._pos]
         self._pos += 1
+        self.last_trace = {
+            "model_name": "scripted",
+            "prompt_template_id": "week6_state_model_prompt_v1",
+            "prompt_hash": prompt_hash,
+            "prompt_excerpt": prompt[:240],
+            "latency_ms": 0,
+            "status": "ok",
+            "error": None,
+        }
         return plan
 
 
@@ -188,10 +211,27 @@ class GeminiPlannerV6:
 
     def __init__(self, api_key: str = "") -> None:
         self._api_key = api_key or os.getenv("GEMINI_API_KEY", "")
+        self.last_trace: dict = {}
 
     def decide(self, state: AgentState, iterations_left: int) -> Optional[dict]:
-        prompt = _build_prompt(state, iterations_left)
+        start = time.perf_counter()
+        prompt = build_prompt(state, iterations_left)
         raw = _call_gemini(prompt, self._api_key)
+        latency_ms = int((time.perf_counter() - start) * 1000)
+        prompt_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
+        self.last_trace = {
+            "model_name": _GEMINI_MODEL,
+            "prompt_template_id": "week6_state_model_prompt_v1",
+            "prompt_hash": prompt_hash,
+            "prompt_excerpt": prompt[:240],
+            "latency_ms": latency_ms,
+            "status": "ok" if raw is not None else "error",
+            "error": None if raw is not None else "planner_failed",
+        }
         if raw is None:
             return None
         return _parse_json(raw)
+
+
+def build_prompt(state: AgentState, iterations_left: int) -> str:
+    return _build_prompt(state, iterations_left)
