@@ -2,7 +2,7 @@
 
 **BSE4104 AI Agentic Systems Capstone · Final Release v1.0.0**
 
-An autonomous, goal-driven helpdesk agent for Centenary Bank built on a RAG retrieval pipeline, tool-execution loop, persistent memory, and an explicit guardrail layer. The system runs entirely offline — no API key is required for any demo or test.
+An autonomous, goal-driven helpdesk agent for Centenary Bank built on a RAG retrieval pipeline, tool-execution loop, persistent memory, and an explicit guardrail layer. The live planning component calls the **Gemini API**; the scripted demos run without a key for reproducibility.
 
 ---
 
@@ -16,17 +16,17 @@ pip install scikit-learn numpy
 git clone <repo-url> centenary-capstone
 cd centenary-capstone
 
-# Run the guardrail evidence demo (Week 7)
+# Run the guardrail evidence demo (Week 7) — no API key needed
 python3 evidence/demo/centenary-agent-week6/demo_guardrails.py
 
-# Run the memory and state demo (Week 6)
+# Run the memory and state demo (Week 6) — no API key needed
 python3 evidence/demo/centenary-agent-week6/demo_week6.py
 
-# Run the RAG pipeline self-tests (Week 3)
+# Run the RAG pipeline self-tests (Week 3) — no API key needed
 python3 evidence/demo/centenary-RAG/pipeline.py
 ```
 
-All three commands exit with a pass/fail summary — no environment variables, no external services.
+The demos use `ScriptedPlanner` (deterministic scripted responses) and exit with a pass/fail summary without making any API calls. To run the agent with live Gemini planning, set `GEMINI_API_KEY` first — see **Live Gemini mode** below.
 
 ---
 
@@ -97,7 +97,7 @@ Evidence: `docs/evaluation/Week-4-Tool-QA.md`
 python3 evidence/demo/centenary-agent-week5/demo_week5.py
 ```
 
-Runs four scripted scenarios (ticket creation, retrieval, out-of-scope rejection, escalation) using `ScriptedPlanner` — no LLM call.
+Runs four scripted scenarios (ticket creation, retrieval, out-of-scope rejection, escalation) using `ScriptedPlanner`. No API key required. Swap in `GeminiPlannerV6` for live Gemini planning.
 
 ---
 
@@ -138,6 +138,37 @@ Guardrail catalogue: `docs/evaluation/week7/Week7_Guardrail_Catalogue.md`
 
 ---
 
+## Live Gemini mode
+
+The demos use `ScriptedPlanner` for reproducibility. To run the agent with a real LLM, swap in `GeminiPlannerV6`:
+
+```bash
+export GEMINI_API_KEY=your_key_here
+# Optional: override the default model
+export GEMINI_MODEL=gemini-1.5-flash   # default
+
+python3 - <<'EOF'
+import sys, os
+sys.path.insert(0, "evidence/demo/centenary-agent-week6")
+sys.path.insert(0, "evidence/demo/centenary-RAG")
+from planner_v6 import GeminiPlannerV6
+from agent_controller_v6 import AgentControllerV6
+from memory_store import MemoryStore
+
+planner  = GeminiPlannerV6()          # reads GEMINI_API_KEY from env
+memory   = MemoryStore()
+agent    = AgentControllerV6(planner, memory)
+
+session  = {"customer_id": "CUST-00001"}
+result   = agent.run("My mobile banking app crashes on login.", session)
+print(result)
+EOF
+```
+
+The `GeminiPlannerV6` implementation is in `evidence/demo/centenary-agent-week6/planner_v6.py`.
+
+---
+
 ## Dependencies
 
 | Package       | Version | Purpose                        |
@@ -158,7 +189,7 @@ No API keys, no external services, no Docker required.
 
 ## Known limitations
 
-- **No live LLM call in demos.** All agent demos use `ScriptedPlanner` (deterministic scripted responses). Swap in `GeminiPlannerV6` and supply a `GOOGLE_API_KEY` to enable live planning.
+- **Demos use ScriptedPlanner, not the live LLM.** The evidence demos use deterministic scripted responses for reproducibility. The real agent uses `GeminiPlannerV6` and requires `GEMINI_API_KEY` — see **Live Gemini mode** above.
 - **In-process memory only.** `MemoryStore` is an in-memory dict; state is lost when the process exits. Persistence to disk or a database is not implemented.
 - **TF-IDF retrieval.** The RAG index uses TF-IDF, not dense embeddings, so paraphrase queries may miss relevant chunks.
 - **English corpus only.** The knowledge base (`knowledge/`) contains English documents only.
