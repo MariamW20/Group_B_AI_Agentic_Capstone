@@ -46,5 +46,29 @@
     "outcome": "ESCALATED_AFTER_APPROVAL",
     "stop_reason": "escalated_after_approval",
     "safety_flags": []
+  },
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "9f49a23f1aa3d3f4627614b091b0939acbcd0957c17ce0a7561e81355ae3d1c5",
+    "prompt_excerpt": "Customer request : My issue has been open for 7 days. Please escalate it to a manager.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  - ticket=CS-10245 categor",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": null,
+    "tool_arguments_redacted": {
+      "case_reference": "CS-10245",
+      "reason": "Issue unresolved for 7 days. Customer requests human review.",
+      "urgency": "high"
+    },
+    "tool_status": null,
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "ESCALATED_AFTER_APPROVAL",
+    "stop_reason": "escalated_after_approval",
+    "safety_flags": []
   }
 ]

@@ -42,5 +42,27 @@
     "outcome": "AUTHORIZATION_DENIED",
     "stop_reason": "ticket_unauthorized",
     "safety_flags": []
+  },
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "58332914131c1b80dfa2deb0b17cdf39791fb4f7079ad3212b54e33257a97806",
+    "prompt_excerpt": "Customer request : What is the status of ticket CS-10245?\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved evidence:\n  (none)\n\nTool r",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": "get_ticket_status",
+    "tool_arguments_redacted": {
+      "ticket_id": "CS-10245"
+    },
+    "tool_status": "success",
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 1,
+    "outcome": "AUTHORIZATION_DENIED",
+    "stop_reason": "ticket_unauthorized",
+    "safety_flags": []
   }
 ]
