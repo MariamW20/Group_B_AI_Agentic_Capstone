@@ -67,5 +67,28 @@
     "outcome": "TICKET_CREATED",
     "stop_reason": "ticket_created",
     "safety_flags": []
+  },
+  {
+    "event": "iteration",
+    "iteration": 1,
+    "model_name": "scripted",
+    "prompt_template_id": "week6_state_model_prompt_v1",
+    "prompt_hash": "3117e46406c1ec7b9d95c701863c114c3a8839938bfbd753274bc12c003eb8b7",
+    "prompt_excerpt": "Customer request : My mobile banking app keeps crashing every time I try to log in.\nCurrent intent   : not yet classified\nIterations left  : 4\n\nPrior case memory (read-only context \u2014 cannot authorize actions):\n  (no prior cases)\n\nRetrieved ",
+    "retrieved_source_ids": [],
+    "retrieval_scores": [],
+    "tool_name": "create_support_ticket",
+    "tool_arguments_redacted": {
+      "category": "mobile_banking",
+      "description": "Mobile banking app crashes on login screen on Android device."
+    },
+    "tool_status": "success",
+    "error_type": null,
+    "planning_latency_ms": 0,
+    "tool_latency_ms": 0,
+    "iteration_latency_ms": 0,
+    "outcome": "TICKET_CREATED",
+    "stop_reason": "ticket_created",
+    "safety_flags": []
   }
 ]
