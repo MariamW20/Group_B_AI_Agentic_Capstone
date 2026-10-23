@@ -13,8 +13,8 @@ An autonomous, goal-driven helpdesk agent for Centenary Bank built on a RAG retr
 pip install scikit-learn numpy
 
 # Clone and enter the repo
-git clone <repo-url> centenary-capstone
-cd centenary-capstone
+git clone https://github.com/MariamW20/Group_B_AI_Agentic_Capstone.git
+cd Group_B_AI_Agentic_Capstone
 
 # Run the guardrail evidence demo (Week 7) — no API key needed
 python3 evidence/demo/centenary-agent-week6/demo_guardrails.py
